@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/jerem/mpu6050/main
+# Install script for directory: C:/Users/jerem/EMBARCADOS_2025/main
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
