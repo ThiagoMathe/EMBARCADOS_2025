@@ -8,12 +8,6 @@ void app_main() {
     mpu6050_init();
 
 while (1) {
-        // Ler temperatura
-        float temperature = read_temperature();
-        if (temperature != -1.0 && temperature != 36.53) {
-            printf("Temperatura: %.2f°C\n", temperature);
-        }
-
         // Ler aceleração
         float accel_x, accel_y, accel_z;
         read_acceleration(&accel_x, &accel_y, &accel_z);

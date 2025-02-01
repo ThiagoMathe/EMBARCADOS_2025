@@ -1,3 +1,8 @@
+# Projeto de Desenvolvimento de Bibliotecas para Dispositivos Embarcados
+
+## Visão Geral
+Este projeto teve como objetivo o desenvolvimento de bibliotecas para dispositivos embarcados utilizando o microcontrolador ESP32 e o framework ESP-IDF. Além disso, as bibliotecas foram aplicadas em um dispositivo final funcional, demonstrando sua utilidade em um cenário prático.
+
 # Equipe do Projeto: 
 
 <div style="display: inline_block;">
@@ -41,91 +46,60 @@
 
 </div>
 
-# Biblioteca MPU6050 para ESP32
+## Etapa 1: Desenvolvimento de Bibliotecas
+Foram desenvolvidas bibliotecas para os seguintes módulos/sensores:
 
-Esta biblioteca permite a leitura dos dados do acelerômetro e giroscópio do sensor MPU6050 via protocolo I2C utilizando o framework ESP-IDF no microcontrolador ESP32.
+### MPU6050 (I2C)
+- **Descrição:** Biblioteca para leitura dos dados do acelerômetro e giroscópio via protocolo I2C.
+- **Funcionalidades:**
+  - Leitura de aceleração nos eixos X, Y e Z.
+  - Leitura de rotação nos eixos X, Y e Z.
+  - Leitura da Temperatura em Celsius
+  - Cálculo do Ângulo de Euler
 
-## Instalação
+### SSD1306 (SPI e I2C)
+- **Descrição:** Biblioteca para controle do display OLED SSD1306 via comunicação SPI e I2C.
+- **Funcionalidades:**
+  - Exibição de texto.
+  - Desenho de figuras básicas (pontos, linhas e retângulos).
+  - Suporte a múltiplos tamanhos de fonte.
 
-1. **Clone o repositório**:
-   ```bash
-   git clone https://github.com/jeremiasmarques/mpu6050.git
-   ```
+### DS18B20 (1-Wire)
+- **Descrição:** Biblioteca para leitura de temperatura utilizando o sensor DS18B20 via comunicação 1-Wire.
+- **Funcionalidades:**
+  - Leitura de temperatura com resolução configurável.
+  - Suporte a múltiplos sensores no mesmo barramento.
+  - Conversão automática para graus Celsius.
 
-2. **Adicione a biblioteca ao seu projeto**:
-   - Copie a pasta `mpu6050` para o diretório `components` do seu projeto ESP-IDF.
+### SSR (Relé de Estado Sólido)
+- **Descrição:** Biblioteca para controle de um Relé de Estado Sólido (SSR) com suporte a acionamento ON-OFF e PWM.
+- **Funcionalidades:**
+  - Controle ON-OFF do relé.
+  - Modulação por Largura de Pulso (PWM) para controle de potência.
 
-3. **Inclua a biblioteca no `CMakeLists.txt`**:
-   Adicione a seguinte linha ao arquivo `CMakeLists.txt` do seu projeto:
-   ```cmake
-   set(EXTRA_COMPONENT_DIRS $ENV{IDF_PATH}/components/mpu6050)
-   ```
+---
 
-## Configuração
+## Etapa 2: Desenvolvimento do Dispositivo Final
+### Descrição do Projeto
+O dispositivo final desenvolvido foi um **Sistema de Monitoramento e Controle de Ambiente**, integrando todos os sensores e atuadores implementados nas bibliotecas da Etapa 1. O sistema foi projetado para monitorar a temperatura ambiente, exibir informações em um display OLED e controlar um relé de estado sólido conforme as condições estabelecidas.
 
-1. **Conecte o MPU6050 ao ESP32**:
-   - Conecte o pino `VCC` do MPU6050 ao `3.3V` do ESP32.
-   - Conecte o pino `GND` do MPU6050 ao `GND` do ESP32.
-   - Conecte o pino `SDA` do MPU6050 ao pino `SDA` do ESP32 (por exemplo, GPIO 21).
-   - Conecte o pino `SCL` do MPU6050 ao pino `SCL` do ESP32 (por exemplo, GPIO 22).
+### Funcionalidades Implementadas
+- Leitura de temperatura em tempo real via DS18B20.
+- Monitoramento de movimentação e inclinação via MPU6050.
+- Exibição das informações no display OLED SSD1306.
+- Controle automático de um dispositivo via Relé de Estado Sólido (SSR).
 
-2. **Configure o I2C no seu projeto**:
-   No arquivo `main.c` do seu projeto, configure o barramento I2C:
-   ```c
-   #include "driver/i2c.h"
-   #include "mpu6050.h"
+### Arquitetura do Sistema
+O sistema foi desenvolvido utilizando o ESP32, com comunicação entre os módulos via I2C, SPI e 1-Wire. A lógica de controle foi implementada em C/C++ utilizando o ESP-IDF.
 
-   #define I2C_MASTER_SCL_IO 22        // Pino SCL
-   #define I2C_MASTER_SDA_IO 21        // Pino SDA
-   #define I2C_MASTER_FREQ_HZ 100000   // Frequência do barramento I2C
+### Documentação e Código
+- Repositório do projeto: [Link para o GitHub]
+- Relatório técnico: [Link para o documento]
+- Demonstração do funcionamento: [Link para vídeo ou imagens]
 
-   void i2c_master_init() {
-       i2c_config_t conf = {
-           .mode = I2C_MODE_MASTER,
-           .sda_io_num = I2C_MASTER_SDA_IO,
-           .scl_io_num = I2C_MASTER_SCL_IO,
-           .sda_pullup_en = GPIO_PULLUP_ENABLE,
-           .scl_pullup_en = GPIO_PULLUP_ENABLE,
-           .master.clk_speed = I2C_MASTER_FREQ_HZ,
-       };
-       i2c_param_config(I2C_NUM_0, &conf);
-       i2c_driver_install(I2C_NUM_0, conf.mode, 0, 0, 0);
-   }
-   ```
+---
 
-## Uso
+## Conclusão
+O projeto permitiu a aplicação prática dos conceitos de desenvolvimento para sistemas embarcados, além de proporcionar experiência no uso do ESP-IDF para criação de bibliotecas modulares e reutilizáveis. O dispositivo final demonstrou a funcionalidade e integração eficiente das bibliotecas desenvolvidas, validando sua aplicabilidade em um cenário real.
 
-1. **Inicialize o MPU6050**:
-   ```c
-   mpu6050_init(I2C_NUM_0);
-   ```
-
-2. **Leia os dados do acelerômetro e giroscópio**:
-   ```c
-   mpu6050_data_t data;
-   mpu6050_read_data(I2C_NUM_0, &data);
-
-   printf("Acelerômetro: X=%f, Y=%f, Z=%f\n", data.accel_x, data.accel_y, data.accel_z);
-   printf("Giroscópio: X=%f, Y=%f, Z=%f\n", data.gyro_x, data.gyro_y, data.gyro_z);
-   ```
-
-## Exemplo Completo
-
-Aqui está um exemplo completo de como usar a biblioteca:
-
-```c
-#include <stdio.h>
-#include "mpu6050.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-
-void app_main() {
-    i2c_master_init();
-    mpu6050_init();
-
-    while (1) {
-        mpu6050_read_data();
-        vTaskDelay(pdMS_TO_TICKS(1000)); // Atualiza os dados a cada 1 segundo
-    }
-}
-```
+---
