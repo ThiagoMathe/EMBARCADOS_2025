@@ -61,8 +61,8 @@ Foram desenvolvidas bibliotecas para os seguintes módulos/sensores:
 - **Descrição:** Biblioteca para controle do display OLED SSD1306 via comunicação SPI e I2C.
 - **Funcionalidades:**
   - Exibição de texto.
-  - Desenho de figuras básicas (pontos, linhas e retângulos).
-  - Suporte a múltiplos tamanhos de fonte.
+  - Desenho de figuras básicas (pontos, linhas, retângulos, quadrados, circulos e triangulos).
+  - Suporte a desenho de texto.
 
 ### DS18B20 (1-Wire)
 - **Descrição:** Biblioteca para leitura de temperatura utilizando o sensor DS18B20 via comunicação 1-Wire.
@@ -81,11 +81,10 @@ Foram desenvolvidas bibliotecas para os seguintes módulos/sensores:
 
 ## Etapa 2: Desenvolvimento do Dispositivo Final
 ### Descrição do Projeto
-O dispositivo final desenvolvido foi um **Sistema de Monitoramento e Controle de Ambiente**, integrando todos os sensores e atuadores implementados nas bibliotecas da Etapa 1. O sistema foi projetado para monitorar a temperatura ambiente, exibir informações em um display OLED e controlar um relé de estado sólido conforme as condições estabelecidas.
+O dispositivo final desenvolvido foi um **Sistema de Monitoramento e Controle de Ambiente**, integrando os sensores e atuadores implementados nas bibliotecas da Etapa 1. O sistema foi projetado para monitorar a temperatura ambiente, exibir informações em um display OLED e controlar um relé de estado sólido conforme as condições estabelecidas.
 
 ### Funcionalidades Implementadas
 - Leitura de temperatura em tempo real via DS18B20.
-- Monitoramento de movimentação e inclinação via MPU6050.
 - Exibição das informações no display OLED SSD1306.
 - Controle automático de um dispositivo via Relé de Estado Sólido (SSR).
 

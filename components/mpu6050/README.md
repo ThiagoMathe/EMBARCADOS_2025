@@ -2,22 +2,6 @@
 
 Esta biblioteca permite a leitura dos dados do acelerômetro e giroscópio do sensor MPU6050 via protocolo I2C utilizando o framework ESP-IDF no microcontrolador ESP32.
 
-## Instalação
-
-1. **Clone o repositório**:
-   ```bash
-   git clone https://github.com/jeremiasmarques/EMBARCADDOS_2025.git
-   ```
-
-2. **Adicione a biblioteca ao seu projeto**:
-   - Copie a pasta `mpu6050` para o diretório `components` do seu projeto ESP-IDF.
-
-3. **Inclua a biblioteca no `CMakeLists.txt`**:
-   Adicione a seguinte linha ao arquivo `CMakeLists.txt` do seu projeto:
-   ```cmake
-   set(EXTRA_COMPONENT_DIRS $ENV{IDF_PATH}/components/mpu6050)
-   ```
-
 ## Configuração
 
 1. **Conecte o MPU6050 ao ESP32**:

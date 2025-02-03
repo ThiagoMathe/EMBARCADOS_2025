@@ -1,39 +1,41 @@
 #include <stdio.h>
-#include "mpu6050.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "ssd1306.h"
+
+static const char *TAG = "SSD1306";
 
 void app_main() {
-    i2c_master_init();
-    mpu6050_init();
+    i2c_master_init_ssd();
+    ssd1306_init();
+    ssd1306_clear();
 
-while (1) {
-        // Ler aceleração
-        float accel_x, accel_y, accel_z;
-        read_acceleration(&accel_x, &accel_y, &accel_z);
+    while (1) {
 
-        if(!(accel_x == accel_y && accel_z == 0 && accel_x == 0)) {
-            printf("Aceleração: X=%.2fg, Y=%.2fg, Z=%.2fg\n", accel_x, accel_y, accel_z);
-        }
+        vTaskDelay(pdMS_TO_TICKS(2000));
+        ssd1306_draw_square(true);
+        ssd1306_update_screen();
+        ssd1306_draw_square(false);
 
-        // Ler giroscópio
-        float gyro_x, gyro_y, gyro_z;
-        read_gyroscope(&gyro_x, &gyro_y, &gyro_z);
+        vTaskDelay(pdMS_TO_TICKS(2000));
+        ssd1306_draw_rectangle(true);
+        ssd1306_update_screen();
+        ssd1306_draw_rectangle(false);
+        
+        vTaskDelay(pdMS_TO_TICKS(2000));
+        ssd1306_draw_triangle(true);
+        ssd1306_update_screen();
+        ssd1306_draw_triangle(false);
+        
+        vTaskDelay(pdMS_TO_TICKS(2000));
+        ssd1306_draw_circle(true);
+        ssd1306_update_screen();
+        ssd1306_draw_circle(false);
 
-        if(!(gyro_x == gyro_y && gyro_z == 0 && gyro_x == 0)) {
-            printf("Giroscópio: X=%.2f°/s, Y=%.2f°/s, Z=%.2f°/s\n", gyro_x, gyro_y, gyro_z);
-        }
+        vTaskDelay(pdMS_TO_TICKS(2000));
+        ssd1306_draw_string("ola mundo", 10, 0);
 
 
-        // Angulo de Euler
-        float roll, pitch, yaw;
-        float dt = 1.0 / 100.0;
-        calculate_euler_angles(&roll, &pitch, &yaw, dt);
-
-        if(!(roll == 0 && pitch == 0 && yaw == 0)) {
-            printf("Euler: roll=%.2f, pitch=%.2f, yaw=%.2f\n", roll, pitch, yaw);
-        }
-
-        vTaskDelay(pdMS_TO_TICKS(1000)); // Atualiza os dados a cada 1 segundo
+        ESP_LOGI(TAG, "Desenhos feitos com sucesso!");
     }
 }

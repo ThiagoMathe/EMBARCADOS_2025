@@ -26,7 +26,7 @@
 /**
  * @brief Inicializa o barramento I2C
  */
-void i2c_master_init(void);
+void i2c_master_init_mpu(void);
 
 /**
  * @brief Inicializa o sensor MPU6050
