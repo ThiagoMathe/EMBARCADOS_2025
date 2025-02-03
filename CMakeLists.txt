@@ -8,4 +8,4 @@ include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 project(mpu6050)
 
 set(CONFIG_IDF_TARGET "esp32s3")
-set(EXTRA_COMPONENT_DIRS components/u8g2)
+
