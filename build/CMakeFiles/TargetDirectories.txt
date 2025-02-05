@@ -842,10 +842,3 @@ C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/main/CMakeFiles/list_install_compon
 C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/main/CMakeFiles/install.dir
 C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/main/CMakeFiles/install/local.dir
 C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/main/CMakeFiles/install/strip.dir
-C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/u8g2/CMakeFiles/__idf_u8g2.dir
-C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/u8g2/CMakeFiles/edit_cache.dir
-C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/u8g2/CMakeFiles/rebuild_cache.dir
-C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/u8g2/CMakeFiles/list_install_components.dir
-C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/u8g2/CMakeFiles/install.dir
-C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/u8g2/CMakeFiles/install/local.dir
-C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/u8g2/CMakeFiles/install/strip.dir

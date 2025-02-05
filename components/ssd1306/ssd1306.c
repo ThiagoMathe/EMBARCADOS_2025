@@ -2,8 +2,8 @@
 #include "driver/i2c.h"
 #include "esp_log.h"
 
-#define I2C_MASTER_SCL_IO 21
-#define I2C_MASTER_SDA_IO 20
+#define I2C_MASTER_SCL_IO 9
+#define I2C_MASTER_SDA_IO 8
 #define I2C_MASTER_FREQ_HZ 100000
 #define I2C_MASTER_NUM I2C_NUM_0
 
@@ -80,7 +80,6 @@ void ssd1306_init() {
     ssd1306_send_command(0xA4);
     ssd1306_send_command(0xA6);
     ssd1306_send_command(0xAF);
-    ssd1306_send_command(0xAF); // Liga o display
     vTaskDelay(pdMS_TO_TICKS(100)); // Pequeno atraso após inicializar
 
 }
