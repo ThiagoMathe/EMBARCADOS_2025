@@ -57,8 +57,8 @@ Foram desenvolvidas bibliotecas para os seguintes módulos/sensores:
   - Leitura da Temperatura em Celsius
   - Cálculo do Ângulo de Euler
 
-### SSD1306 (SPI e I2C)
-- **Descrição:** Biblioteca para controle do display OLED SSD1306 via comunicação SPI e I2C.
+### SSD1306 (I2C)
+- **Descrição:** Biblioteca para controle do display OLED SSD1306 via comunicação I2C.
 - **Funcionalidades:**
   - Exibição de texto.
   - Desenho de figuras básicas (pontos, linhas, retângulos, quadrados, circulos e triangulos).
@@ -89,7 +89,7 @@ O dispositivo final desenvolvido foi um **Sistema de Monitoramento e Controle de
 - Controle automático de um dispositivo via Relé de Estado Sólido (SSR).
 
 ### Arquitetura do Sistema
-O sistema foi desenvolvido utilizando o ESP32, com comunicação entre os módulos via I2C, SPI e 1-Wire. A lógica de controle foi implementada em C/C++ utilizando o ESP-IDF.
+O sistema foi desenvolvido utilizando o ESP32, com comunicação entre os módulos via I2C e 1-Wire. A lógica de controle foi implementada em C/C++ utilizando o ESP-IDF.
 
 ### Documentação e Código
 - Repositório do projeto: [Link para o GitHub]

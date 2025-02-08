@@ -31,6 +31,9 @@ void ssd1306_send_data(uint8_t data);
 // Inicializa o SSD1306
 void ssd1306_init();
 
+// ssd1306_init + i2c_master_init_ssd
+void i2c_init_ssd1306();
+
 // Limpa o display
 void ssd1306_clear();
 

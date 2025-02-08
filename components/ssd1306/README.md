@@ -19,8 +19,7 @@ Esta biblioteca permite a interface com o display OLED SSD1306 via protocolo I2C
    #include "freertos/task.h"
 
    void app_main() {
-       i2c_master_init_ssd();
-       ssd1306_init();
+       i2c_init_ssd1306();
        ssd1306_clear();
 
        ssd1306_draw_string("Hello, ESP32!", 0, 0);
@@ -35,7 +34,7 @@ Esta biblioteca permite a interface com o display OLED SSD1306 via protocolo I2C
 
 1. **Inicialize o SSD1306**:
    ```c
-   ssd1306_init();
+   i2c_init_ssd1306();
    ```
 
 2. **Desenhe uma string no display**:
@@ -71,8 +70,7 @@ Aqui está um exemplo completo de como usar a biblioteca:
 static const char *TAG = "SSD1306";
 
 void app_main() {
-    i2c_master_init_ssd();
-    ssd1306_init();
+    i2c_init_ssd1306();
     ssd1306_clear();
 
     while (1) {

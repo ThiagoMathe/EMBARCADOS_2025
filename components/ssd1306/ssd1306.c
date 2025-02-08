@@ -84,6 +84,11 @@ void ssd1306_init() {
 
 }
 
+void i2c_init_ssd1306() {
+    i2c_master_init_ssd();
+    ssd1306_init();
+}
+
 // Limpa o display
 void ssd1306_clear() {
     for (uint8_t page = 0; page < 8; page++) {
