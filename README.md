@@ -81,12 +81,11 @@ Foram desenvolvidas bibliotecas para os seguintes módulos/sensores:
 
 ## Etapa 2: Desenvolvimento do Dispositivo Final
 ### Descrição do Projeto
-O dispositivo final desenvolvido foi um **Sistema de Monitoramento e Controle de Ambiente**, integrando os sensores e atuadores implementados nas bibliotecas da Etapa 1. O sistema foi projetado para monitorar a temperatura ambiente, exibir informações em um display OLED e controlar um relé de estado sólido conforme as condições estabelecidas.
+O dispositivo final desenvolvido foi um **Sistema de Monitoramento e Controle de Ambiente**, integrando os sensores e atuadores implementados nas bibliotecas da Etapa 1. O sistema foi projetado para monitorar a temperatura ambiente, exibir informações em um display OLED.
 
 ### Funcionalidades Implementadas
 - Leitura de temperatura em tempo real via DS18B20.
 - Exibição das informações no display OLED SSD1306.
-- Controle automático de um dispositivo via Relé de Estado Sólido (SSR).
 
 ### Arquitetura do Sistema
 O sistema foi desenvolvido utilizando o ESP32, com comunicação entre os módulos via I2C e 1-Wire. A lógica de controle foi implementada em C utilizando o ESP-IDF.
