@@ -80,16 +80,37 @@ Foram desenvolvidas bibliotecas para os seguintes módulos/sensores:
 ---
 
 ## Etapa 2: Desenvolvimento do Dispositivo Final
+
 ### Descrição do Projeto
-O dispositivo final desenvolvido foi um **Sistema de Monitoramento e Controle de Ambiente**, integrando os sensores e atuadores implementados nas bibliotecas da Etapa 1. O sistema foi projetado para monitorar a temperatura ambiente, exibir informações em um display OLED.
+O dispositivo final desenvolvido foi um **Sistema de Monitoramento e Controle de Ambiente**, integrando os sensores e atuadores implementados nas bibliotecas da Etapa 1. O sistema foi projetado para monitorar temperatura e umidade do ambiente, exibir informações em um display OLED e fornecer um meio de controle remoto através de uma aplicação web.
 
 ### Funcionalidades Implementadas
-- Leitura de temperatura em tempo real via DS18B20.
-- Exibição das informações no display OLED SSD1306.
+- Leitura de temperatura via sensor **DS18B20**.
+- Leitura de umidade via sensor.
+- Exibição das informações no display **OLED SSD1306**.
+- Comunicação via **Wi-Fi** com a aplicação web.
+- Monitoramento e controle remoto através da interface web.
 
 ### Arquitetura do Sistema
-O sistema foi desenvolvido utilizando o ESP32, com comunicação entre os módulos via I2C e 1-Wire. A lógica de controle foi implementada em C utilizando o ESP-IDF.
+O sistema foi desenvolvido utilizando o **ESP32-S3**, com comunicação entre os módulos via **I2C** e **1-Wire**. A lógica de controle foi implementada em **C utilizando o ESP-IDF**.
 
-### Documentação e Código
-- Relatório técnico: [Link para o documento]
-- Demonstração do funcionamento: [Link para vídeo ou imagens]
+O ESP32-S3 se conecta via **Wi-Fi** à aplicação web, permitindo a visualização dos dados.
+
+### Compilação e Upload do Código:
+```sh
+idf.py build
+idf.py flash
+idf.py monitor
+```
+
+## Aplicação Web
+A aplicação web, desenvolvida em **React.js**, permite:
+- Visualização dos dados em tempo real.
+
+## Repositório e Documentação
+- **Relatório técnico:** [Link para o documento]
+- **Demonstração:** [Link para vídeo ou imagens]
+- **Código-fonte:** [Link para o repositório GitHub]
+
+---
+Desenvolvido com tecnologia ESP32-S3
