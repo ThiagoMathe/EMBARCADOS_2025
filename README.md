@@ -86,7 +86,7 @@ O dispositivo final desenvolvido foi um **Sistema de Monitoramento e Controle de
 
 ### Funcionalidades Implementadas
 - Leitura de temperatura via sensor **DS18B20**.
-- Leitura de umidade via sensor.
+- Leitura de umidade via sensor **S12**.
 - Exibição das informações no display **OLED SSD1306**.
 - Comunicação via **Wi-Fi** com a aplicação web.
 - Monitoramento e controle remoto através da interface web.
@@ -96,21 +96,7 @@ O sistema foi desenvolvido utilizando o **ESP32-S3**, com comunicação entre os
 
 O ESP32-S3 se conecta via **Wi-Fi** à aplicação web, permitindo a visualização dos dados.
 
-### Compilação e Upload do Código:
-```sh
-idf.py build
-idf.py flash
-idf.py monitor
-```
-
-## Aplicação Web
-A aplicação web, desenvolvida em **React.js**, permite:
-- Visualização dos dados em tempo real.
-
-## Repositório e Documentação
-- **Relatório técnico:** [Link para o documento]
-- **Demonstração:** [Link para vídeo ou imagens]
-- **Código-fonte:** [Link para o repositório GitHub]
+### Aplicação Web
+A aplicação web, desenvolvida em **React**, permitirá a visualização dos dados em tempo real.
 
 ---
-Desenvolvido com tecnologia ESP32-S3
