@@ -89,7 +89,7 @@ O dispositivo final desenvolvido foi um **Sistema de Monitoramento e Controle de
 - Controle automático de um dispositivo via Relé de Estado Sólido (SSR).
 
 ### Arquitetura do Sistema
-O sistema foi desenvolvido utilizando o ESP32, com comunicação entre os módulos via I2C e 1-Wire. A lógica de controle foi implementada em C/C++ utilizando o ESP-IDF.
+O sistema foi desenvolvido utilizando o ESP32, com comunicação entre os módulos via I2C e 1-Wire. A lógica de controle foi implementada em C utilizando o ESP-IDF.
 
 ### Documentação e Código
 - Relatório técnico: [Link para o documento]
