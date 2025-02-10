@@ -92,13 +92,5 @@ O dispositivo final desenvolvido foi um **Sistema de Monitoramento e Controle de
 O sistema foi desenvolvido utilizando o ESP32, com comunicação entre os módulos via I2C e 1-Wire. A lógica de controle foi implementada em C/C++ utilizando o ESP-IDF.
 
 ### Documentação e Código
-- Repositório do projeto: [Link para o GitHub]
 - Relatório técnico: [Link para o documento]
 - Demonstração do funcionamento: [Link para vídeo ou imagens]
-
----
-
-## Conclusão
-O projeto permitiu a aplicação prática dos conceitos de desenvolvimento para sistemas embarcados, além de proporcionar experiência no uso do ESP-IDF para criação de bibliotecas modulares e reutilizáveis. O dispositivo final demonstrou a funcionalidade e integração eficiente das bibliotecas desenvolvidas, validando sua aplicabilidade em um cenário real.
-
----
