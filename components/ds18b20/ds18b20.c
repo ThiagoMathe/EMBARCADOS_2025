@@ -1,104 +1,175 @@
 #include <stdio.h>
+#include "driver/gpio.h"
+#include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "driver/gpio.h"
-#include "rom/ets_sys.h"
 
-#define DS18B20_GPIO 21 
+#define DS18B20_GPIO 9 // Defina o pino onde está conectado o sensor
+#define CMD_CONVERT_T  0x44
+#define CMD_READ_SCRATCHPAD 0xBE
+#define CMD_SKIP_ROM  0xCC
+#define CMD_MATCH_ROM 0x55
+#define CMD_READ_ROM  0x33
 
-// Função de reset do sensor DS18B20
-void ds18b20_send_reset()
-{
-    gpio_set_direction(DS18B20_GPIO, GPIO_MODE_OUTPUT);
-    gpio_set_level(DS18B20_GPIO, 0);
-    ets_delay_us(480);
-    gpio_set_level(DS18B20_GPIO, 1);
-    ets_delay_us(60);
-    gpio_set_direction(DS18B20_GPIO, GPIO_MODE_INPUT);
-    ets_delay_us(420);
+static const char *TAG = "DS18B20";
+
+// Inicializa o pino GPIO
+void ds18b20_init(int gpio) {
+    gpio_reset_pin(gpio);
+    gpio_set_direction(gpio, GPIO_MODE_OUTPUT);
+    gpio_set_level(gpio, 1);
 }
 
-// Função para ler um único bit do sensor
-uint8_t ds18b20_read_bit() {
-    gpio_set_direction(DS18B20_GPIO, GPIO_MODE_OUTPUT);
-    gpio_set_level(DS18B20_GPIO, 0);
-    ets_delay_us(2); // Tempo mínimo antes de mudar para entrada
-    gpio_set_direction(DS18B20_GPIO, GPIO_MODE_INPUT);
-    ets_delay_us(10); // Tempo ideal para leitura do bit
-    uint8_t bit = gpio_get_level(DS18B20_GPIO);
-    ets_delay_us(50); // Aguarda estabilização
+// Reinicia o barramento 1-Wire e verifica se há sensores conectados
+int ds18b20_reset(int gpio) {
+    gpio_set_direction(gpio, GPIO_MODE_OUTPUT);
+    gpio_set_level(gpio, 0);
+    esp_rom_delay_us(480); // Delay exato de 480µs
+    gpio_set_level(gpio, 1);
+    esp_rom_delay_us(70); // Espera 70µs
+    gpio_set_direction(gpio, GPIO_MODE_INPUT);
+    esp_rom_delay_us(410); // Espera mais 410µs
+
+    return gpio_get_level(gpio) == 0; // Se for 0, um sensor respondeu
+}
+
+// Escreve um bit no barramento 1-Wire
+void ds18b20_write_bit(int gpio, int bit) {
+    gpio_set_direction(gpio, GPIO_MODE_OUTPUT);
+    gpio_set_level(gpio, 0);
+    esp_rom_delay_us(bit ? 6 : 60);
+    gpio_set_level(gpio, 1);
+    esp_rom_delay_us(bit ? 64 : 10);
+}
+
+// Lê um bit do barramento 1-Wire
+int ds18b20_read_bit(int gpio) {
+    int bit;
+    gpio_set_direction(gpio, GPIO_MODE_OUTPUT);
+    gpio_set_level(gpio, 0);
+    esp_rom_delay_us(6);
+    gpio_set_level(gpio, 1);
+    gpio_set_direction(gpio, GPIO_MODE_INPUT);
+    esp_rom_delay_us(9);
+    bit = gpio_get_level(gpio);
+    esp_rom_delay_us(55);
     return bit;
 }
 
-// Função para ler um byte do sensor
-uint8_t ds18b20_read_byte()
-{
-    uint8_t byte = 0;
-    for (int i = 0; i < 8; i++)
-    {
-        byte |= (ds18b20_read_bit() << i);
-        ets_delay_us(60);
-    }
-    return byte;
-}
-
-// Função para escrever um único bit no sensor
-void ds18b20_write_bit(uint8_t bit)
-{
-    gpio_set_direction(DS18B20_GPIO, GPIO_MODE_OUTPUT);
-    gpio_set_level(DS18B20_GPIO, 0);
-    ets_delay_us(bit ? 5 : 60);
-    gpio_set_level(DS18B20_GPIO, 1);
-    ets_delay_us(bit ? 55 : 5);
-}
-
-// Função para escrever um byte no sensor
-void ds18b20_write_byte(uint8_t data)
-{
-    for (int i = 0; i < 8; i++)
-    {
-        ds18b20_write_bit(data & (1 << i));
-        ets_delay_us(60);
+// Escreve um byte no barramento
+void ds18b20_write_byte(int gpio, uint8_t data) {
+    for (int i = 0; i < 8; i++) {
+        ds18b20_write_bit(gpio, data & 0x01);
+        data >>= 1;
     }
 }
 
-// Função para obter a temperatura do sensor
-float ds18b20_get_temperature()
-{
-    ds18b20_send_reset();
-    ds18b20_write_byte(0xCC); // Skip ROM
-    ds18b20_write_byte(0x44); // Start temperature conversion
-    vTaskDelay(pdMS_TO_TICKS(1000)); // Aguardar 1 segundo para conversão
-
-    ds18b20_send_reset();
-    ds18b20_write_byte(0xCC); // Skip ROM
-    ds18b20_write_byte(0xBE); // Ler scratchpad
-
-    uint8_t lsb = ds18b20_read_byte();
-    uint8_t msb = ds18b20_read_byte();
-
-    // 🔍 Debug: Verificar valores lidos
-    printf("LSB: %02X, MSB: %02X\n", lsb, msb);
-
-    // Combina os dois bytes em um valor de 16 bits (raw_temp)
-    int16_t raw_temp = (msb << 8) | lsb;
-
-    // Se o MSB indicar valor negativo (bit de sinal 1), ajusta o valor para complemento de dois
-    if (msb & 0x80) {  // Verifica se o MSB é 1 (indica número negativo)
-        raw_temp |= 0xF000;  // Ajusta o valor para o complemento de dois (signo negativo)
+// Lê um byte do barramento
+uint8_t ds18b20_read_byte(int gpio) {
+    uint8_t data = 0;
+    for (int i = 0; i < 8; i++) {
+        data |= (ds18b20_read_bit(gpio) << i);
     }
-
-    // Calcula a temperatura dividindo por 16.0
-    float temperature = raw_temp / 16.0;
-
-    // 🔍 Verificar se a temperatura está em uma faixa válida
-    if (temperature < -55.0 || temperature > 125.0) {
-        printf("Valor de temperatura inválido: %.2f°C\n", temperature);
-        return -0.06;  // Retorna um valor padrão de erro
-    }
-
-    printf("Temperatura válida: %.2f°C\n", temperature);
-    return temperature;
+    return data;
 }
 
+// Verifica CRC
+uint8_t ds18b20_crc8(const uint8_t *data, uint8_t len) {
+    uint8_t crc = 0;
+    for (uint8_t i = 0; i < len; i++) {
+        uint8_t inByte = data[i];
+        for (uint8_t j = 0; j < 8; j++) {
+            uint8_t mix = (crc ^ inByte) & 0x01;
+            crc >>= 1;
+            if (mix) crc ^= 0x8C;
+            inByte >>= 1;
+        }
+    }
+    return crc;
+}
 
+// Lê a temperatura do DS18B20
+float ds18b20_read_temp(int gpio) {
+    uint8_t scratchpad[9];
+    if (!ds18b20_reset(gpio)) {
+        ESP_LOGE(TAG, "Nenhum sensor encontrado!");
+        return -1000;
+    }
+
+    ds18b20_write_byte(gpio, CMD_SKIP_ROM);
+    ds18b20_write_byte(gpio, CMD_CONVERT_T);
+    
+    // Espera pela conversão sem bloquear
+    for (int i = 0; i < 75; i++) {
+        vTaskDelay(pdMS_TO_TICKS(10));
+        if (ds18b20_read_bit(gpio)) break;
+    }
+    
+    if (!ds18b20_reset(gpio)) {
+        ESP_LOGE(TAG, "Erro ao reiniciar sensor!");
+        return -1000;
+    }
+
+    ds18b20_write_byte(gpio, CMD_SKIP_ROM);
+    ds18b20_write_byte(gpio, CMD_READ_SCRATCHPAD);
+
+    for (int i = 0; i < 9; i++) {
+        scratchpad[i] = ds18b20_read_byte(gpio);
+    }
+
+    // Verifica CRC
+    if (ds18b20_crc8(scratchpad, 8) != scratchpad[8]) {
+        ESP_LOGE(TAG, "Erro de CRC!");
+        return -1000;
+    }
+
+    int16_t raw_temp = (scratchpad[1] << 8) | scratchpad[0];
+    return raw_temp / 16.0;
+}
+
+float ds18b20_read_temp_address(int gpio, uint8_t address[8]) {
+    uint8_t scratchpad[9];
+
+    if (!ds18b20_reset(gpio)) {
+        ESP_LOGE(TAG, "Nenhum sensor encontrado!");
+        return -1000;
+    }
+
+    ds18b20_write_byte(gpio, CMD_MATCH_ROM); // Seleciona o sensor específico
+    for (int i = 0; i < 8; i++) {
+        ds18b20_write_byte(gpio, address[i]); // Envia o endereço do sensor
+    }
+    
+    ds18b20_write_byte(gpio, CMD_CONVERT_T);
+
+    // Espera pela conversão sem bloquear (máx 750 ms)
+    for (int i = 0; i < 75; i++) {
+        vTaskDelay(pdMS_TO_TICKS(10));
+        if (ds18b20_read_bit(gpio)) break;
+    }
+
+    if (!ds18b20_reset(gpio)) {
+        ESP_LOGE(TAG, "Erro ao reiniciar sensor!");
+        return -1000;
+    }
+
+    ds18b20_write_byte(gpio, CMD_MATCH_ROM); // Seleciona o sensor novamente
+    for (int i = 0; i < 8; i++) {
+        ds18b20_write_byte(gpio, address[i]);
+    }
+
+    ds18b20_write_byte(gpio, CMD_READ_SCRATCHPAD);
+
+    for (int i = 0; i < 9; i++) {
+        scratchpad[i] = ds18b20_read_byte(gpio);
+    }
+
+    // Verifica CRC
+    if (ds18b20_crc8(scratchpad, 8) != scratchpad[8]) {
+        ESP_LOGE(TAG, "Erro de CRC!");
+        return -1000;
+    }
+
+    int16_t raw_temp = (scratchpad[1] << 8) | scratchpad[0];
+    return raw_temp / 16.0;
+}
