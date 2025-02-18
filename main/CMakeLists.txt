@@ -3,6 +3,7 @@ idf_component_register(SRCS "main.c"
                        REQUIRES mpu6050
                        REQUIRES ssd1306
                        REQUIRES ds18b20
+                       REQUIRES ssr
                        REQUIRES driver)
 
 

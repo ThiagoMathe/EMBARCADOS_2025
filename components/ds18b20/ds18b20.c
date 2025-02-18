@@ -4,7 +4,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-#define DS18B20_GPIO 9 // Defina o pino onde está conectado o sensor
+#define DS18B20_GPIO 18 // Defina o pino onde está conectado o sensor
 #define CMD_CONVERT_T  0x44
 #define CMD_READ_SCRATCHPAD 0xBE
 #define CMD_SKIP_ROM  0xCC
