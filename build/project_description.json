@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "mpu6050",
-    "project_version":    "8918c0b-dirty",
+    "project_version":    "bc66a82-dirty",
     "project_path":       "C:/Users/jerem/EMBARCADOS_2025",
     "idf_path":           "C:/Users/jerem/esp/v5.3.1/esp-idf",
     "build_dir":          "C:/Users/jerem/EMBARCADOS_2025/build",
