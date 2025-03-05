@@ -2,19 +2,23 @@
 #include "driver/i2c.h"
 #include "esp_log.h"
 
-#define I2C_MASTER_SCL_IO 9
-#define I2C_MASTER_SDA_IO 8
-#define I2C_MASTER_FREQ_HZ 100000
-#define I2C_MASTER_NUM I2C_NUM_0
+// Definições de pinos e configuração do barramento I2C
+#define I2C_MASTER_SCL_IO 9      // Pino do clock SCL
+#define I2C_MASTER_SDA_IO 8      // Pino de dados SDA
+#define I2C_MASTER_FREQ_HZ 100000 // Frequência de operação do I2C (100kHz)
+#define I2C_MASTER_NUM I2C_NUM_0  // Definição do barramento I2C a ser utilizado
 
-#define SSD1306_I2C_ADDRESS 0x3C
-#define SSD1306_WIDTH 128
-#define SSD1306_HEIGHT 64
+// Definições do display SSD1306
+#define SSD1306_I2C_ADDRESS 0x3C  // Endereço I2C do display SSD1306
+#define SSD1306_WIDTH 128         // Largura do display em pixels
+#define SSD1306_HEIGHT 64         // Altura do display em pixels
+
+// Buffer para armazenar os dados da tela
 uint8_t ssd1306_buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8];
 
-static const char *TAG = "SSD1306";
+static const char *TAG = "SSD1306"; // Tag para logs
 
-// Inicializa o barramento I2C
+// Função para inicializar o barramento I2C para o display SSD1306
 void i2c_master_init_ssd() {
     i2c_config_t conf = {
         .mode = I2C_MODE_MASTER,
@@ -24,79 +28,78 @@ void i2c_master_init_ssd() {
         .scl_pullup_en = GPIO_PULLUP_ENABLE,
         .master.clk_speed = I2C_MASTER_FREQ_HZ,
     };
-    ESP_ERROR_CHECK(i2c_param_config(I2C_MASTER_NUM, &conf));
-    ESP_ERROR_CHECK(i2c_driver_install(I2C_MASTER_NUM, conf.mode, 0, 0, 0));
-    
+    ESP_ERROR_CHECK(i2c_param_config(I2C_MASTER_NUM, &conf)); // Configura os parâmetros do I2C
+    ESP_ERROR_CHECK(i2c_driver_install(I2C_MASTER_NUM, conf.mode, 0, 0, 0)); // Instala o driver I2C
 }
 
-// Envia um comando ao SSD1306
+// Envia um comando para o display SSD1306
 void ssd1306_send_command(uint8_t command) {
-    i2c_cmd_handle_t cmd = i2c_cmd_link_create();
+    i2c_cmd_handle_t cmd = i2c_cmd_link_create(); // Cria um novo comando I2C
     i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, (SSD1306_I2C_ADDRESS << 1) | I2C_MASTER_WRITE, true);
-    i2c_master_write_byte(cmd, 0x00, true); // Byte de controle para comandos
-    i2c_master_write_byte(cmd, command, true);
+    i2c_master_write_byte(cmd, (SSD1306_I2C_ADDRESS << 1) | I2C_MASTER_WRITE, true); // Endereço do display
+    i2c_master_write_byte(cmd, 0x00, true); // Byte de controle indicando comando
+    i2c_master_write_byte(cmd, command, true); // Envia o comando
     i2c_master_stop(cmd);
-    i2c_master_cmd_begin(I2C_MASTER_NUM, cmd, 1000 / portTICK_PERIOD_MS);
-    i2c_cmd_link_delete(cmd);
+    i2c_master_cmd_begin(I2C_MASTER_NUM, cmd, 1000 / portTICK_PERIOD_MS); // Executa o comando no barramento I2C
+    i2c_cmd_link_delete(cmd); // Deleta o comando
 }
 
-// Envia dados para o SSD1306
+// Envia um byte de dados para o display SSD1306
 void ssd1306_send_data(uint8_t data) {
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     i2c_master_start(cmd);
     i2c_master_write_byte(cmd, (SSD1306_I2C_ADDRESS << 1) | I2C_MASTER_WRITE, true);
-    i2c_master_write_byte(cmd, 0x40, true); // Byte de controle para dados
+    i2c_master_write_byte(cmd, 0x40, true); // Byte de controle indicando dado
     i2c_master_write_byte(cmd, data, true);
     i2c_master_stop(cmd);
     i2c_master_cmd_begin(I2C_MASTER_NUM, cmd, 1000 / portTICK_PERIOD_MS);
     i2c_cmd_link_delete(cmd);
 }
 
-// Inicializa o SSD1306
+// Inicializa o display SSD1306 com uma sequência de comandos padrão
 void ssd1306_init() {
     ssd1306_send_command(0xAE); // Desliga o display
-    ssd1306_send_command(0xD5);
-    ssd1306_send_command(0x80);
-    ssd1306_send_command(0xA8);
+    ssd1306_send_command(0xD5); // Configura o clock de exibição
+    ssd1306_send_command(0x80); 
+    ssd1306_send_command(0xA8); // Define a altura do display
     ssd1306_send_command(0x3F);
-    ssd1306_send_command(0xD3);
+    ssd1306_send_command(0xD3); // Define o deslocamento da tela
     ssd1306_send_command(0x00);
-    ssd1306_send_command(0x40);
-    ssd1306_send_command(0x8D);
+    ssd1306_send_command(0x40); // Define o início da exibição
+    ssd1306_send_command(0x8D); // Configura a fonte de alimentação
     ssd1306_send_command(0x14);
-    ssd1306_send_command(0x20);
+    ssd1306_send_command(0x20); // Define o modo de endereçamento
     ssd1306_send_command(0x00);
-    ssd1306_send_command(0xA1);
-    ssd1306_send_command(0xC8);
-    ssd1306_send_command(0xDA);
+    ssd1306_send_command(0xA1); // Define a orientação horizontal
+    ssd1306_send_command(0xC8); // Define a orientação vertical
+    ssd1306_send_command(0xDA); // Configura o hardware do display
     ssd1306_send_command(0x12);
-    ssd1306_send_command(0x81);
+    ssd1306_send_command(0x81); // Ajusta o contraste
     ssd1306_send_command(0xCF);
-    ssd1306_send_command(0xD9);
+    ssd1306_send_command(0xD9); // Define o tempo de pré-carregamento
     ssd1306_send_command(0xF1);
-    ssd1306_send_command(0xDB);
+    ssd1306_send_command(0xDB); // Configura o nível de tensão de saída
     ssd1306_send_command(0x40);
-    ssd1306_send_command(0xA4);
-    ssd1306_send_command(0xA6);
-    ssd1306_send_command(0xAF);
-    vTaskDelay(pdMS_TO_TICKS(100)); // Pequeno atraso após inicializar
-
+    ssd1306_send_command(0xA4); // Define o modo normal de exibição
+    ssd1306_send_command(0xA6); // Define a exibição em modo normal (não invertido)
+    ssd1306_send_command(0xAF); // Liga o display
+    vTaskDelay(pdMS_TO_TICKS(100)); // Pequeno atraso para estabilização
 }
 
+// Inicializa o display OLED SSD1306 via I2C
 void i2c_init_ssd1306() {
-    i2c_master_init_ssd();
-    ssd1306_init();
+    i2c_master_init_ssd(); // Inicializa o barramento I2C
+    ssd1306_init();        // Inicializa o display OLED
 }
 
-// Limpa o display
+// Limpa o display preenchendo a memória com zeros
 void ssd1306_clear() {
-    for (uint8_t page = 0; page < 8; page++) {
-        ssd1306_send_command(0xB0 + page);
-        ssd1306_send_command(0x00);
-        ssd1306_send_command(0x10);
-        for (uint8_t col = 0; col < 128; col++) {
-            ssd1306_send_data(0x00); // Envia um byte de zeros para limpar
+    for (uint8_t page = 0; page < 8; page++) { // Percorre todas as páginas do display (8 no total)
+        ssd1306_send_command(0xB0 + page); // Seleciona a página
+        ssd1306_send_command(0x00); // Define o endereço da coluna (parte baixa)
+        ssd1306_send_command(0x10); // Define o endereço da coluna (parte alta)
+        for (uint8_t col = 0; col < 128; col++) { // Percorre todas as colunas (128 no total)
+            ssd1306_send_data(0x00); // Envia bytes zerados para limpar o display
         }
     }
 }
