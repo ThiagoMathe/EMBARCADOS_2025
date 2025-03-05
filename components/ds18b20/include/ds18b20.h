@@ -6,6 +6,7 @@
 #include "driver/gpio.h"
 
 #define DS18B20_GPIO 9 // Pino do sensor DS18B20
+#define MOVING_AVERAGE_WINDOW 10 // Tamanho da janela para a média móvel
 
 #define CMD_CONVERT_T  0x44
 #define CMD_READ_SCRATCHPAD 0xBE
@@ -39,5 +40,8 @@ float ds18b20_read_temp(int gpio);
 
 // Lê a temperatura de um sensor específico pelo endereço ROM
 float ds18b20_read_temp_address(int gpio, uint8_t address[8]);
+
+// Função para calcular a média móvel da temperatura
+float ds18b20_moving_average(float new_temp);
 
 #endif // DS18B20_H

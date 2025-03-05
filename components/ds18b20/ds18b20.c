@@ -5,6 +5,8 @@
 #include "freertos/task.h"
 
 #define DS18B20_GPIO 18 // Defina o pino onde está conectado o sensor
+#define MOVING_AVERAGE_WINDOW 10 // Tamanho da janela para a média móvel
+
 #define CMD_CONVERT_T  0x44
 #define CMD_READ_SCRATCHPAD 0xBE
 #define CMD_SKIP_ROM  0xCC
@@ -12,6 +14,11 @@
 #define CMD_READ_ROM  0x33
 
 static const char *TAG = "DS18B20";
+
+// Variáveis para o filtro de média móvel
+static float temperature_history[MOVING_AVERAGE_WINDOW] = {0};
+static int history_index = 0;
+static int history_count = 0;
 
 // Inicializa o pino GPIO
 void ds18b20_init(int gpio) {
@@ -172,4 +179,21 @@ float ds18b20_read_temp_address(int gpio, uint8_t address[8]) {
 
     int16_t raw_temp = (scratchpad[1] << 8) | scratchpad[0];
     return raw_temp / 16.0;
+}
+
+// Função para calcular a média móvel da temperatura
+float ds18b20_moving_average(float new_temp) {
+    // Adiciona a nova leitura ao histórico
+    temperature_history[history_index] = new_temp;
+    history_index = (history_index + 1) % MOVING_AVERAGE_WINDOW;
+    if (history_count < MOVING_AVERAGE_WINDOW) {
+        history_count++;
+    }
+
+    // Calcula a média das leituras no histórico
+    float sum = 0;
+    for (int i = 0; i < history_count; i++) {
+        sum += temperature_history[i];
+    }
+    return sum / history_count;
 }
