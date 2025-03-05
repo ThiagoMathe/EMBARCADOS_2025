@@ -7,5 +7,8 @@
     ],
     "idf.portWin": "COM6",
     "idf.toolsPathWin": "C:\\Users\\jerem\\.espressif",
-    "idf.flashType": "UART"
+    "idf.flashType": "UART",
+    "files.associations": {
+        "esp_log.h": "c"
+    }
 }
