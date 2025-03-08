@@ -3,7 +3,7 @@
 ## Visão Geral
 Este projeto teve como objetivo o desenvolvimento de bibliotecas para dispositivos embarcados utilizando o microcontrolador ESP32 e o framework ESP-IDF. Além disso, as bibliotecas foram aplicadas em um dispositivo final funcional, demonstrando sua utilidade em um cenário prático.
 
-# Equipe do Projeto: 
+# Equipe do Projeto:
 
 <div style="display: inline_block;">
 
@@ -54,14 +54,14 @@ Foram desenvolvidas bibliotecas para os seguintes módulos/sensores:
 - **Funcionalidades:**
   - Leitura de aceleração nos eixos X, Y e Z.
   - Leitura de rotação nos eixos X, Y e Z.
-  - Leitura da Temperatura em Celsius
-  - Cálculo do Ângulo de Euler
+  - Leitura da Temperatura em Celsius.
+  - Cálculo do Ângulo de Euler.
 
 ### SSD1306 (I2C)
 - **Descrição:** Biblioteca para controle do display OLED SSD1306 via comunicação I2C.
 - **Funcionalidades:**
   - Exibição de texto.
-  - Desenho de figuras básicas (pontos, linhas, retângulos, quadrados, circulos e triangulos).
+  - Desenho de figuras básicas (pontos, linhas, retângulos, quadrados, círculos e triângulos).
   - Suporte a desenho de texto.
 
 ### DS18B20 (1-Wire)
@@ -77,16 +77,24 @@ Foram desenvolvidas bibliotecas para os seguintes módulos/sensores:
   - Controle ON-OFF do relé.
   - Modulação por Largura de Pulso (PWM) para controle de potência.
 
+### S12 (Sensor de Umidade de Solo)
+- **Descrição:** Biblioteca para leitura da umidade do solo utilizando o sensor S12 via comunicação analógica.
+- **Funcionalidades:**
+  - Leitura do nível de umidade do solo.
+  - Cálculo da umidade relativa em percentual.
+
 ---
 
 ## Etapa 2: Desenvolvimento do Dispositivo Final
 
 ### Descrição do Projeto
-O dispositivo final desenvolvido foi um **Sistema de Monitoramento e Controle de Ambiente**, integrando os sensores e atuadores implementados nas bibliotecas da Etapa 1. O sistema foi projetado para monitorar temperatura e umidade do ambiente, exibir informações em um display OLED e fornecer um meio de controle remoto através de uma aplicação web.
+O dispositivo final desenvolvido foi um **Sistema de Monitoramento e Controle de Ambiente**, integrando os sensores e atuadores implementados nas bibliotecas da Etapa 1. O sistema foi projetado para monitorar temperatura, umidade do solo e ambiente, exibir informações em um display OLED e através de uma aplicação web.
+
+- **Repositório do Projeto Web**: [EMBARCADOS-WEB](https://github.com/diegoCBorba/embarcados-web)
 
 ### Funcionalidades Implementadas
 - Leitura de temperatura via sensor **DS18B20**.
-- Leitura de umidade via sensor **S12**.
+- Leitura de umidade do solo via sensor **S12**.
 - Exibição das informações no display **OLED SSD1306**.
 - Comunicação via **Wi-Fi** com a aplicação web.
 - Monitoramento e controle remoto através da interface web.
@@ -98,5 +106,3 @@ O ESP32-S3 se conecta via **Wi-Fi** à aplicação web, permitindo a visualizaç
 
 ### Aplicação Web
 A aplicação web, desenvolvida em **React**, permitirá a visualização dos dados em tempo real.
-
----
