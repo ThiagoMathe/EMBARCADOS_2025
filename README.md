@@ -46,7 +46,8 @@ Este projeto teve como objetivo o desenvolvimento de bibliotecas para dispositiv
 
 </div>
 
-## Etapa 1: Desenvolvimento de Bibliotecas
+<details open>
+<summary><h2>Etapa 1: Desenvolvimento de Bibliotecas</h2></summary>
 Foram desenvolvidas bibliotecas para os seguintes módulos/sensores:
 
 ### MPU6050 (I2C)
@@ -83,9 +84,12 @@ Foram desenvolvidas bibliotecas para os seguintes módulos/sensores:
   - Leitura do nível de umidade do solo.
   - Cálculo da umidade relativa em percentual.
 
+</details>
+
 ---
 
-## Etapa 2: Desenvolvimento do Dispositivo Final
+<details open>
+<summary><h2>Etapa 2: Desenvolvimento do Dispositivo Final</h2></summary>
 
 ### Descrição do Projeto
 O dispositivo final desenvolvido foi um **Sistema de Monitoramento e Controle de Ambiente**, integrando os sensores e atuadores implementados nas bibliotecas da Etapa 1. O sistema foi projetado para monitorar temperatura, umidade do solo e ambiente, exibir informações em um display OLED e através de uma aplicação web.
@@ -106,3 +110,5 @@ O ESP32-S3 se conecta via **Wi-Fi** à aplicação web, permitindo a visualizaç
 
 ### Aplicação Web
 A aplicação web, desenvolvida em **React**, permitirá a visualização dos dados em tempo real.
+
+</details>
