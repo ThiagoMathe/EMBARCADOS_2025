@@ -3,6 +3,8 @@
 ## Visão Geral
 Este projeto teve como objetivo o desenvolvimento de bibliotecas para dispositivos embarcados utilizando o microcontrolador ESP32 e o framework ESP-IDF. Além disso, as bibliotecas foram aplicadas em um dispositivo final funcional, demonstrando sua utilidade em um cenário prático.
 
+- ### Link para a documentação detalhada do nosso projeto: [DOCUMENTAÇÃO](https://academico-ifpb-edu-1.gitbook.io/projeto-embarcados)
+
 # Equipe do Projeto:
 
 <div style="display: inline_block;">
