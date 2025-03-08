@@ -85,5 +85,7 @@ C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/mpu6050/libmpu6050.a
 C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/ssd1306/libssd1306.a
 C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/ds18b20/libds18b20.a
 C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/ssr/libssr.a
-C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/main/libmain.a
 C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/s12/libs12.a
+C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/espressif__esp_websocket_client/libespressif__esp_websocket_client.a
+C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/websocket_server/libwebsocket_server.a
+C:/Users/jerem/EMBARCADOS_2025/build/esp-idf/main/libmain.a

@@ -9,6 +9,7 @@
     "idf.toolsPathWin": "C:\\Users\\jerem\\.espressif",
     "idf.flashType": "UART",
     "files.associations": {
-        "esp_log.h": "c"
+        "esp_log.h": "c",
+        "string": "c"
     }
 }

@@ -85,5 +85,7 @@ $<TARGET_FILE:__idf_mpu6050>
 $<TARGET_FILE:__idf_ssd1306>
 $<TARGET_FILE:__idf_ds18b20>
 $<TARGET_FILE:__idf_ssr>
-$<TARGET_FILE:__idf_main>
 $<TARGET_FILE:__idf_s12>
+$<TARGET_FILE:__idf_espressif__esp_websocket_client>
+$<TARGET_FILE:__idf_websocket_server>
+$<TARGET_FILE:__idf_main>
