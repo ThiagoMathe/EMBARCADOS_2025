@@ -12,7 +12,7 @@
 #include "lwip/sys.h"
 #include "driver/i2c.h"
 
-// Bibliotecas WebSocket importadasdo gith
+// Bibliotecas WebSocket importadas do https://github.com/Molorius/esp32-websocket
 #include "websocket.h"
 #include "websocket_server.h"
 
