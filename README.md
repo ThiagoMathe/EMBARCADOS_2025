@@ -3,8 +3,6 @@
 ## Visão Geral
 Este projeto teve como objetivo o desenvolvimento de bibliotecas para dispositivos embarcados utilizando o microcontrolador ESP32 e o framework ESP-IDF. Além disso, as bibliotecas foram aplicadas em um dispositivo final funcional, demonstrando sua utilidade em um cenário prático.
 
-- **Repositório do Projeto Web**: [EMBARCADOS-WEB](https://github.com/diegoCBorba/embarcados-web)
-
 # Equipe do Projeto:
 
 <div style="display: inline_block;">
@@ -91,6 +89,8 @@ Foram desenvolvidas bibliotecas para os seguintes módulos/sensores:
 
 ### Descrição do Projeto
 O dispositivo final desenvolvido foi um **Sistema de Monitoramento e Controle de Ambiente**, integrando os sensores e atuadores implementados nas bibliotecas da Etapa 1. O sistema foi projetado para monitorar temperatura, umidade do solo e ambiente, exibir informações em um display OLED e através de uma aplicação web.
+
+- **Repositório do Projeto Web**: [EMBARCADOS-WEB](https://github.com/diegoCBorba/embarcados-web)
 
 ### Funcionalidades Implementadas
 - Leitura de temperatura via sensor **DS18B20**.
