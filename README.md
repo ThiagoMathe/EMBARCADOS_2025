@@ -98,8 +98,8 @@ Foram desenvolvidas bibliotecas para os seguintes módulos/sensores:
 O dispositivo final desenvolvido foi um **Sistema de Monitoramento e Controle de Ambiente**, integrando os sensores e atuadores implementados nas bibliotecas da Etapa 1. O sistema foi projetado para monitorar temperatura, umidade do solo e ambiente, exibir informações em um display OLED e através de uma aplicação web.
 
 - **Repositório do Projeto Web**: [EMBARCADOS-WEB](https://github.com/diegoCBorba/embarcados-web)
-- **Vídeo técnico explicativo**: [VÍDEO TÉCNICO](https://www.youtube.com/watch?v=eN3HijC2ZJM&themeRefresh=1)
-- **Vídeo desmonstrativo**: [VÍDEO DEMONSTRATIVO](https://www.youtube.com/watch?v=pF14Dw3tqsc)
+- **Vídeo técnico explicativo**: [VÍDEO-TÉCNICO](https://www.youtube.com/watch?v=eN3HijC2ZJM&themeRefresh=1)
+- **Vídeo desmonstrativo**: [VÍDEO-DEMONSTRATIVO](https://www.youtube.com/watch?v=pF14Dw3tqsc)
 ---
 
 ### **Funcionalidades Implementadas**
