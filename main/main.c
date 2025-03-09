@@ -41,7 +41,7 @@ void wifi_init(void) {
     esp_netif_create_default_wifi_sta();
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     esp_wifi_init(&cfg);
-    
+    ESP_LOGI(TAG, "Conectando ao Wi-Fi");
     wifi_config_t wifi_config = {
         .sta = {
             .ssid = WIFI_SSID,
@@ -51,16 +51,17 @@ void wifi_init(void) {
     esp_wifi_set_mode(WIFI_MODE_STA);
     esp_wifi_set_config(WIFI_IF_STA, &wifi_config);
     esp_wifi_start();
+    ESP_LOGI(TAG, "Wi-Fi conectado!");
 }
 
 void websocket_callback(uint8_t num, WEBSOCKET_TYPE_t type, char* msg, uint64_t len) {
     // Callback para eventos do WebSocket
     switch (type) {
         case WEBSOCKET_CONNECT:
-            ESP_LOGI(TAG, "WebSocket conectado!");
+            ESP_LOGI(TAG, "WebSocket conectado");
             break;
         case WEBSOCKET_DISCONNECT_EXTERNAL:
-            ESP_LOGI(TAG, "WebSocket desconectado pelo servidor!");
+            ESP_LOGI(TAG, "WebSocket desconectado");
             break;
         case WEBSOCKET_TEXT:
             ESP_LOGI(TAG, "Mensagem recebida: %.*s", (int)len, msg);
@@ -117,13 +118,15 @@ void sensor_task(void *pvParameters) {
         // Sensor de temperatura
         float temperatura = ds18b20_read_temp(PINO_TEMP);
 
-        ESP_LOGI(TAG, "Umidade: %.1f%% | Temperatura: %.1fC", umidade, temperatura);
+        ESP_LOGI(TAG, "Umidade: %.1f%% Temperatura: %.1fC", umidade, temperatura);
         update_display(temperatura, umidade);
 
         // Envia os dados via WebSocket
         char json_string[100];
         snprintf(json_string, sizeof(json_string), "{\"temperature\":%.1f, \"humidity\":%.1f}", temperatura, umidade);
         ws_send(&ws_client, WEBSOCKET_OPCODE_TEXT, json_string, strlen(json_string), true);
+
+        ESP_LOGI(TAG, "Enviado: %s", json_string); 
 
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
@@ -133,6 +136,7 @@ void app_main() {
     // Inicializa o NVS, Wi-Fi e OLED
     nvs_flash_init();
     wifi_init();
+    i2c_master_init_ssd();
     ssd1306_init(OLED_SDA, OLED_SCL);
 
     // Cria as tarefas

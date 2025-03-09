@@ -3,8 +3,8 @@
 #include "esp_log.h"
 
 // Definições de pinos e configuração do barramento I2C
-#define I2C_MASTER_SCL_IO 9      // Pino do clock SCL
-#define I2C_MASTER_SDA_IO 8      // Pino de dados SDA
+#define I2C_MASTER_SCL_IO 11      // Pino do clock SCL
+#define I2C_MASTER_SDA_IO 12      // Pino de dados SDA
 #define I2C_MASTER_FREQ_HZ 100000 // Frequência de operação do I2C (100kHz)
 #define I2C_MASTER_NUM I2C_NUM_0  // Definição do barramento I2C a ser utilizado
 
