@@ -118,6 +118,14 @@ O dispositivo final desenvolvido foi um **Sistema de Monitoramento e Controle de
    - Através de uma interface web desenvolvida em **React**, os dados são visualizados em tempo real. A comunicação entre o ESP32 e a aplicação web é feita via **WebSocket**, permitindo atualizações instantâneas.
    -  Bibliotecas WebSocket importadas do [https://github.com/Molorius/esp32-websocket](https://github.com/Molorius/esp32-websocket) 
 
+### Diagrama de Blocos
+
+![Image](https://github.com/user-attachments/assets/6c81c24f-15d4-4c12-b9f3-fe3839343cf2)
+
+### Esquemático
+
+![Image](https://github.com/user-attachments/assets/221754f0-c072-47db-8f2b-7c35977949e8)
+
 ---
 
 ### **Arquitetura do Sistema**
